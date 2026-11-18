@@ -1,0 +1,1180 @@
+/* ==========================================================================
+   DAME CLIC (https://dameclic.com) — Nuevo Diseño de Agencia de Marketing Digital
+   Curridabat, San José, Costa Rica
+   Referencias integradas:
+   1. Jupa-LA (https://jupa-la.com/) — Dinamismo de agencia y jerarquía visual
+   2. Markene (https://markene.online/) — Tipografía Manrope + DM Sans, Hero Split y Grid de Servicios
+   3. Crafted NY (https://www.craftedny.com/) — Transición fluida de color entre bloque y bloque al hacer scroll + Formulario interactivo
+   4. Avalaunch Media (https://avalaunchmedia.com/) — Carrusel animado doble de marcas (gris a color en hover)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Manrope:wght@500;600;700;800&display=swap');
+
+:root,
+html.light {
+  color-scheme: light;
+  --navy: #12162a;        /* Azul oscuro corporativo para H1, H2 y menú principal */
+  --orange: #ff4200;      /* Naranja para detalles destacados y botones en hover */
+  --cyan: #00a2df;        /* Celeste para botones, títulos medianos H3 y H4 */
+  --green: #35ca00;       /* Color secundario extra para detalles puntuales */
+  --purple: #bf00d1;      /* Color secundario extra para detalles puntuales */
+  --gray-light: #f0f0f0;  /* Gris claro para fondos con aire y botones inactivos */
+  --white: #ffffff;       /* Blanco puro para fondos con aire y tarjetas */
+  --text-dark: #12162a;
+  --text-body: #465068;
+  --text-muted: #687287;
+  --border-soft: #e2e6f0;
+  --stage-bg: #ffffff;    /* Fondo dinámico que transiciona al hacer scroll (Crafted NY) */
+  --stage-text: #12162a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--stage-bg);
+  color: var(--stage-text);
+  line-height: 1.65;
+  /* Transición suave de color entre bloque y bloque al hacer scroll (Crafted NY) */
+  transition: background-color 0.75s cubic-bezier(0.22, 1, 0.36, 1),
+              color 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+h1, h2, h3, h4, .font-heading {
+  font-family: 'Manrope', -apple-system, BlinkMacSystemFont, sans-serif;
+  letter-spacing: -0.032em;
+  line-height: 1.12;
+}
+
+/* ==========================================================================
+   0. PRELOADER DE CORTINA PANTALLA COMPLETA (1920x1500px / 100vw x 100vh)
+      + HERO SLIDER INDEPENDIENTE (1920x800px) CON ANIMACIÓN "STUDIO DEMO A"
+      Referencia exacta: https://agency-portfolio-template.webflow.io/studio-demo-a/home
+   ========================================================================== */
+
+/* Cortina Azul (#12162a) de Pantalla Completa que Sube Junto al Logo (IX2 a-4 / a-5) */
+.preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: auto;
+  z-index: 9999;
+  width: 100vw;
+  height: 100vh;
+  max-height: 1500px;
+  background-color: #12162a;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  pointer-events: auto;
+  /* Transición exacta IX2 a-5: height 100vh -> 0vh con inOutQuart (2000ms) */
+  transition: height 1.85s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+/* Franja de acento en el borde inferior de la cortina al subir */
+.preloader::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(90deg, #ff4200, #00a2df, #35ca00);
+}
+
+.preloader.is-lifted {
+  height: 0vh !important;
+  pointer-events: none;
+}
+
+.logo-preloader {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding: 1.5rem 2.5rem;
+  transform: translate3d(0, 0vh, 0);
+  /* Transición exacta IX2 a-5-n-31: logo sube (-15vh) junto con la cortina */
+  transition: transform 1.85s cubic-bezier(0.77, 0, 0.175, 1),
+              opacity 1.2s cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.preloader.is-lifted .logo-preloader {
+  transform: translate3d(0, -18vh, 0);
+}
+
+.brand-white-pre {
+  width: 260px;
+  max-width: 75vw;
+  height: auto;
+  object-fit: contain;
+  animation: preloaderLogoAppear 0.7s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes preloaderLogoAppear {
+  0% {
+    opacity: 0;
+    transform: translate3d(0, 28px, 0) scale(0.92);
+  }
+  100% {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+}
+
+/* Animación de entrada del Navbar al subir la cortina (IX2 a-5-n-7) */
+.navbar-reveal {
+  transform: translate3d(0, 0%, 0);
+  transition: transform 1.6s cubic-bezier(0.77, 0, 0.175, 1), opacity 1.2s ease;
+}
+
+body.curtain-active .navbar-reveal {
+  transform: translate3d(0, -100%, 0);
+}
+
+/* ==========================================================================
+   MEGA MENÚ DE SERVICIOS (6 Servicios con Mockups / Fotos)
+   ========================================================================== */
+.mega-menu-wrapper {
+  position: static;
+}
+
+.mega-menu-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 1.25rem 0;
+  cursor: pointer;
+}
+
+.mega-menu-chevron {
+  transition: transform 0.25s ease;
+}
+
+.mega-menu-wrapper:hover .mega-menu-chevron,
+.mega-menu-wrapper:focus-within .mega-menu-chevron {
+  transform: rotate(180deg);
+  color: #ff4200;
+}
+
+.mega-menu-dropdown {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%) translateY(10px);
+  width: 980px;
+  max-width: calc(100vw - 2rem);
+  max-height: calc(100vh - 85px);
+  overflow-y: auto;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.28s cubic-bezier(0.16, 1, 0.3, 1),
+              visibility 0.28s;
+  z-index: 55;
+}
+
+.mega-menu-wrapper:hover .mega-menu-dropdown,
+.mega-menu-wrapper:focus-within .mega-menu-dropdown,
+.mega-menu-dropdown:hover {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transform: translateX(-50%) translateY(0);
+}
+
+.mega-menu-card {
+  position: relative;
+  background-color: #161b30;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  padding: 0.875rem 1rem;
+  transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  align-items: center;
+  gap: 0.875rem;
+  text-decoration: none;
+}
+
+.mega-menu-card:hover {
+  background-color: #1e2544;
+  border-color: #00a2df;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px -6px rgba(0, 0, 0, 0.4), 0 0 16px -2px rgba(0, 162, 223, 0.3);
+}
+
+.mega-menu-thumb {
+  width: 4.75rem;
+  height: 4.75rem;
+  border-radius: 0.75rem;
+  background: radial-gradient(circle at center, rgba(0, 162, 223, 0.16), transparent 70%), #101424;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.375rem;
+  flex-shrink: 0;
+  overflow: hidden;
+}
+
+.mega-menu-thumb img {
+  max-height: 100%;
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mega-menu-card:hover .mega-menu-thumb img {
+  transform: scale(1.1);
+}
+
+/* ==========================================================================
+   HERO SLIDER INDEPENDIENTE (Dimensiones: 1920x800px) — STUDIO DEMO A
+   Cada slide es independiente, pasa automáticamente y ejecuta las
+   animaciones IX2 a-86 (slide vertical - in) y a-87 (slide vertical - out)
+   ========================================================================== */
+.section-hero-studio {
+  position: relative;
+  z-index: 3;
+  width: 100%;
+  max-width: 1920px;
+  height: 800px;
+  margin: 0 auto;
+  padding: 0;
+  overflow: hidden;
+  background-color: #ffffff;
+  border-bottom: 1px solid #e2e6f0;
+}
+
+.studio-slider {
+  position: relative;
+  width: 100%;
+  height: 800px;
+  overflow: hidden;
+}
+
+.studio-slider-mask {
+  position: relative;
+  width: 100%;
+  height: 800px;
+  overflow: hidden;
+}
+
+/* Cada Slide Independiente de 1920x800px (.slide-vertical) */
+.slide-vertical {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  max-width: 1920px;
+  height: 800px;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 1;
+  visibility: hidden;
+}
+
+.slide-vertical.is-active {
+  pointer-events: auto;
+  z-index: 3;
+  visibility: visible;
+}
+
+.slide-vertical.is-exiting {
+  pointer-events: none;
+  z-index: 2;
+  visibility: visible;
+}
+
+.splitscreen-reverse {
+  position: relative;
+  width: 100%;
+  height: 800px;
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 1024px) {
+  .splitscreen-reverse {
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+  }
+}
+
+/* Sección Izquierda de Contenido (.left-section) */
+.studio-left-section {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 3rem 1.75rem 6.5rem;
+}
+
+@media (min-width: 768px) {
+  .studio-left-section {
+    padding: 4rem 4rem 6.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .studio-left-section {
+    grid-column: span 6 / span 6;
+    padding: 4rem 3rem 6.5rem 6rem;
+  }
+}
+
+/* Sección Derecha con Mockup e Imagen Hero Animada (.right-section.overflow-hidden) */
+.studio-right-section {
+  position: relative;
+  z-index: 2;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@media (max-width: 1023px) {
+  .studio-right-section {
+    position: absolute;
+    inset: 0;
+    opacity: 0.16;
+    pointer-events: none;
+  }
+}
+
+@media (min-width: 1024px) {
+  .studio-right-section {
+    grid-column: span 6 / span 6;
+    height: 800px;
+  }
+}
+
+/* Animación Vertical del Fondo y Mockup (.background-image-hero en IX2 a-86 / a-87) */
+.background-image-hero {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem 4rem 6.5rem 2rem;
+  position: relative;
+  transform: translate3d(0, -100%, 0);
+  opacity: 0;
+  transition: transform 1.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              opacity 0.9s ease;
+}
+
+.slide-vertical.is-active .background-image-hero {
+  transform: translate3d(0, 0%, 0);
+  opacity: 1;
+  transition-delay: 0.25s;
+}
+
+.slide-vertical.is-exiting .background-image-hero {
+  transform: translate3d(0, 100%, 0);
+  opacity: 0;
+  transition-delay: 0.25s;
+}
+
+/* Animación IX2 a-86 (in: +300px -> 0) y a-87 (out: 0 -> -300px) para .slide-content-1 y .slide-content-3 */
+.slide-content-1 {
+  opacity: 0;
+  transform: translate3d(0, 300px, 0);
+  transition: transform 1.25s cubic-bezier(0.19, 1, 0.22, 1),
+              opacity 1.1s ease;
+}
+
+.slide-content-3 {
+  opacity: 0;
+  transform: translate3d(0, 300px, 0);
+  transition: transform 1.25s cubic-bezier(0.19, 1, 0.22, 1),
+              opacity 1.1s ease;
+}
+
+/* Estado Activo (IX2 a-86: slide-content-1 delay 350ms, slide-content-3 delay 550ms) */
+.slide-vertical.is-active .slide-content-1 {
+  opacity: 1;
+  transform: translate3d(0, 0px, 0);
+  transition-delay: 0.35s;
+}
+
+.slide-vertical.is-active .slide-content-3 {
+  opacity: 1;
+  transform: translate3d(0, 0px, 0);
+  transition-delay: 0.55s;
+}
+
+/* Estado Saliente (IX2 a-87: suben hacia -300px con desfase de 200ms) */
+.slide-vertical.is-exiting .slide-content-1 {
+  opacity: 0;
+  transform: translate3d(0, -300px, 0);
+  transition-delay: 0.05s;
+}
+
+.slide-vertical.is-exiting .slide-content-3 {
+  opacity: 0;
+  transform: translate3d(0, -300px, 0);
+  transition-delay: 0.22s;
+}
+
+/* Enlace estilo Studio Demo A con línea animada (.link-block + .hover-line) */
+.studio-link-block {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-decoration: none;
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.studio-hover-line {
+  width: 100%;
+  height: 2px;
+  background-color: #12162a;
+  transform-origin: left center;
+  transition: transform 0.35s cubic-bezier(0.25, 0.46, 0.45, 0.94),
+              background-color 0.25s ease;
+}
+
+.studio-link-block:hover .studio-hover-line {
+  background-color: #ff4200;
+  transform: scaleX(1.08);
+}
+
+/* Flechas Izquierda y Derecha estilo Studio Demo A (.left-arrow / .right-arrow) */
+.studio-left-arrow,
+.studio-right-arrow {
+  position: absolute;
+  bottom: 1.5rem;
+  z-index: 20;
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 0.75rem;
+  background-color: #f0f0f0;
+  color: #12162a;
+  border: 1px solid #dfe3ec;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.45s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.studio-left-arrow {
+  left: 1.75rem;
+}
+
+.studio-right-arrow {
+  right: 1.75rem;
+}
+
+@media (min-width: 1024px) {
+  .studio-left-arrow {
+    left: 6rem;
+  }
+  .studio-right-arrow {
+    right: 6rem;
+  }
+}
+
+.studio-left-arrow:hover {
+  background-color: #ff4200;
+  color: #ffffff;
+  border-color: #ff4200;
+  transform: translateX(-10px);
+  box-shadow: 0 10px 24px -6px rgba(255, 66, 0, 0.35);
+}
+
+.studio-right-arrow:hover {
+  background-color: #ff4200;
+  color: #ffffff;
+  border-color: #ff4200;
+  transform: translateX(10px);
+  box-shadow: 0 10px 24px -6px rgba(255, 66, 0, 0.35);
+}
+
+/* Indicadores de Navegación Inferior (.slide-nav) */
+.studio-slide-nav {
+  position: absolute;
+  bottom: 1.5rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+  height: 3.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+}
+
+.studio-nav-dot {
+  height: 0.65rem;
+  width: 2.5rem;
+  border-radius: 999px;
+  background-color: #f0f0f0;
+  border: 1px solid #cbd5e1;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.studio-nav-dot:hover {
+  border-color: #ff4200;
+}
+
+.studio-nav-dot.is-active {
+  width: 4.5rem;
+  border-color: #12162a;
+  background-color: #e2e6f0;
+}
+
+.studio-nav-dot-fill {
+  position: absolute;
+  inset: 0;
+  width: 0%;
+  background: linear-gradient(90deg, #12162a, #ff4200);
+}
+
+.studio-nav-dot.is-active .studio-nav-dot-fill {
+  animation: studioDotProgress 5.5s linear forwards;
+}
+
+@keyframes studioDotProgress {
+  0% { width: 0%; }
+  100% { width: 100%; }
+}
+
+/* Línea Vertical Animada de Scroll Down (.scroll-down-line-wrapper en IX2 a-12) */
+.scroll-down-line-wrapper {
+  position: absolute;
+  bottom: 1.75rem;
+  left: 28%;
+  z-index: 20;
+  width: 13px;
+  height: 54px;
+  overflow: hidden;
+}
+
+.scroll-down-line-bg {
+  position: absolute;
+  top: 0;
+  left: 6px;
+  width: 1.5px;
+  height: 100%;
+  background-color: rgba(18, 22, 42, 0.18);
+}
+
+.scroll-down-line {
+  position: absolute;
+  top: 0;
+  left: 6px;
+  width: 1.5px;
+  height: 100%;
+  background-color: #ff4200;
+  animation: studioScrollLine 2s cubic-bezier(0.25, 0.46, 0.45, 0.94) infinite;
+}
+
+@keyframes studioScrollLine {
+  0% { transform: translate3d(0, -101%, 0); }
+  50%, 100% { transform: translate3d(0, 101%, 0); }
+}
+
+/* ==========================================================================
+   1. Transición de Color con Scroll Continua y Sin Cortes (Blanco -> Azul -> Blanco):
+      - Blanco (#ffffff) en Servicios ("Servicios Destacados para Multiplicar sus Ventas")
+      - Transición suave a Azul Oscuro (#12162a) en Suscripción y Blog
+      - Transición suave de Azul Oscuro (#12162a) de vuelta a Blanco (#ffffff) en Contacto
+   ========================================================================== */
+.scroll-color-zone {
+  --zone-bg: #ffffff;
+  --blog-heading-color: #ffffff;
+  --blog-desc-color: rgba(255, 255, 255, 0.88);
+  position: relative;
+  background-color: var(--zone-bg, #ffffff);
+  transition: background-color 0.28s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: background-color;
+}
+
+.scroll-color-zone > section {
+  background-color: transparent;
+  border: 0;
+}
+
+.scroll-about-heading {
+  color: var(--about-heading-color, #ffffff);
+  transition: color 0.25s ease;
+}
+
+.scroll-about-text {
+  color: var(--about-text-color, rgba(255, 255, 255, 0.86));
+  transition: color 0.25s ease;
+}
+
+.scroll-about-eyebrow {
+  color: var(--about-eyebrow-color, #00a2df);
+  transition: color 0.25s ease;
+}
+
+.scroll-step-card {
+  background-color: var(--step-card-bg, rgba(255, 255, 255, 0.10));
+  border: 1px solid var(--step-card-border, rgba(255, 255, 255, 0.16));
+  transition: background-color 0.25s ease, border-color 0.25s ease;
+}
+
+.scroll-blog-heading {
+  color: var(--blog-heading-color, #12162a);
+  transition: color 0.25s ease;
+}
+
+.scroll-blog-desc {
+  color: var(--blog-desc-color, #ffffff);
+  transition: color 0.25s ease;
+}
+
+/* ==========================================================================
+   2. Borde Animado de 5px en Dos Tonos (#00a2df Celeste y #bf00d1 Púrpura) en Hover
+      Réplica exacta de Digital Silk (https://www.digitalsilk.com/)
+      para la caja blanca de "Reciba Contenido GRATUITO, Regístrese Ahora"
+   ========================================================================== */
+.newsletter-silk-box {
+  position: relative;
+  background-color: #ffffff !important; /* Fondo blanco sólido sin gradientes */
+  border-radius: 20px;
+  overflow: hidden;
+  border: 1px solid #e2e6f0;
+  box-shadow: 0 16px 45px -10px rgba(18, 22, 42, 0.12);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s ease,
+              border-color 0.4s ease;
+}
+
+.newsletter-silk-box:hover,
+.newsletter-silk-box:focus-within {
+  transform: translateY(-4px);
+  border-color: rgba(0, 162, 223, 0.3);
+  box-shadow: 0 26px 65px -10px rgba(18, 22, 42, 0.22),
+              0 0 35px rgba(0, 162, 223, 0.22),
+              0 0 30px rgba(191, 0, 209, 0.22);
+}
+
+/* 1. Barra de Acento Izquierda (Grosor 5px) en Dos Tonos (#00a2df arriba -> #bf00d1 abajo) */
+.silk-accent {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 5px;
+  background: linear-gradient(180deg, #00a2df 0%, #bf00d1 100%);
+  z-index: 10;
+  pointer-events: none;
+  transition: width 0.35s ease, box-shadow 0.35s ease;
+}
+
+.newsletter-silk-box:hover .silk-accent,
+.newsletter-silk-box:focus-within .silk-accent {
+  width: 7px;
+  box-shadow: 0 0 18px rgba(0, 162, 223, 0.8), 0 0 18px rgba(191, 0, 209, 0.8);
+}
+
+/* 2. Contenedor de las 3 Líneas Perimetrales de 5px */
+.silk-perimeter {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9;
+}
+
+.silk-line {
+  display: block;
+  position: absolute;
+  pointer-events: none;
+  filter: drop-shadow(0 0 6px rgba(0, 162, 223, 0.75)) drop-shadow(0 0 6px rgba(191, 0, 209, 0.75));
+  transition: transform 0.25s ease 0s; /* Retracción inmediata al retirar el cursor */
+}
+
+/* Línea Inferior (5px): Se dibuja de izquierda a derecha (0s delay, 0.48s duración) */
+.silk-line--bottom {
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, #bf00d1 0%, #00a2df 100%);
+  transform-origin: left center;
+  transform: scaleX(0);
+}
+
+/* Línea Derecha (5px): Se dibuja de abajo hacia arriba (0.44s delay, 0.20s duración) */
+.silk-line--right {
+  bottom: 0;
+  right: 0;
+  width: 5px;
+  height: 100%;
+  background: linear-gradient(180deg, #bf00d1 0%, #00a2df 100%);
+  transform-origin: bottom center;
+  transform: scaleY(0);
+}
+
+/* Línea Superior (5px): Se dibuja de derecha a izquierda (0.62s delay, 0.38s duración) */
+.silk-line--top {
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, #00a2df 0%, #bf00d1 100%);
+  transform-origin: right center;
+  transform: scaleX(0);
+}
+
+/* ==========================================================================
+   Animación Secuencial del Borde Perimetral al Pasar el Cursor (Hover / Focus)
+   ========================================================================== */
+.newsletter-silk-box:hover .silk-line--bottom,
+.newsletter-silk-box:focus-within .silk-line--bottom {
+  transform: scaleX(1);
+  transition-duration: 0.48s;
+  transition-delay: 0s;
+  transition-timing-function: cubic-bezier(0.72, 0, 1, 0.58);
+}
+
+.newsletter-silk-box:hover .silk-line--right,
+.newsletter-silk-box:focus-within .silk-line--right {
+  transform: scaleY(1);
+  transition-duration: 0.20s;
+  transition-delay: 0.44s;
+  transition-timing-function: cubic-bezier(0.55, 0, 1, 1);
+}
+
+.newsletter-silk-box:hover .silk-line--top,
+.newsletter-silk-box:focus-within .silk-line--top {
+  transform: scaleX(1);
+  transition-duration: 0.38s;
+  transition-delay: 0.62s;
+  transition-timing-function: cubic-bezier(0.45, 0, 1, 1);
+}
+
+/* ==========================================================================
+   3. Botones Rectangulares con Bordes Redondeados y Hover Naranja (#ff4200)
+   ========================================================================== */
+.btn-dameclic {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.625rem;
+  border-radius: 0.75rem; /* Rectangular con bordes redondeados (12px) */
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
+  transition: background-color 0.24s cubic-bezier(0.16, 1, 0.3, 1),
+              color 0.24s ease,
+              border-color 0.24s ease,
+              transform 0.24s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.24s ease;
+  cursor: pointer;
+}
+
+.btn-dameclic:hover {
+  background-color: #ff4200 !important;
+  border-color: #ff4200 !important;
+  color: #ffffff !important;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 26px -6px rgba(255, 66, 0, 0.38);
+}
+
+/* Cajas de botones en estado inactivo (#f0f0f0) y naranja (#ff4200) en hover */
+.btn-inactive {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  background-color: #f0f0f0;
+  color: #12162a;
+  border: 1px solid #dfe3ec;
+  border-radius: 0.75rem; /* Rectangular con bordes redondeados */
+  font-family: 'Manrope', sans-serif;
+  font-weight: 700;
+  transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+}
+
+.btn-inactive:hover,
+.btn-inactive.is-active {
+  background-color: #ff4200 !important;
+  color: #ffffff !important;
+  border-color: #ff4200 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 10px 22px -6px rgba(255, 66, 0, 0.32);
+}
+
+/* ==========================================================================
+   3. Eyebrow / Kicker Estilo Agencia (Markene / Jupa-LA)
+   ========================================================================== */
+.agency-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.65rem;
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.13em;
+  color: #00a2df;
+}
+
+.agency-eyebrow::before {
+  content: '';
+  display: inline-block;
+  width: 26px;
+  height: 3px;
+  border-radius: 99px;
+  background: linear-gradient(90deg, #ff4200, #00a2df);
+}
+
+/* ==========================================================================
+   4. Carrusel Animado de Marcas "Ellos Confían en Nosotros" (Avalaunch Media)
+      Doble pista con máscaras laterales y logos de gris a color en hover
+   ========================================================================== */
+.avalaunch-scroll-container {
+  width: 100%;
+  padding: 0;
+  position: relative;
+  overflow: hidden;
+}
+
+.avalaunch-scroll-container::before,
+.avalaunch-scroll-container::after {
+  content: "";
+  z-index: 10;
+  width: 110px;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  pointer-events: none;
+}
+
+.avalaunch-scroll-container::before {
+  left: 0;
+  background: linear-gradient(90deg, var(--stage-bg) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.avalaunch-scroll-container::after {
+  right: 0;
+  background: linear-gradient(270deg, var(--stage-bg) 0%, rgba(255, 255, 255, 0) 100%);
+}
+
+.avalaunch-stack {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  animation: avalaunchScrollLeft 42s linear infinite;
+}
+
+.avalaunch-stack-reverse {
+  display: flex;
+  align-items: center;
+  width: max-content;
+  animation: avalaunchScrollRight 46s linear infinite;
+}
+
+.avalaunch-scroll-container:hover .avalaunch-stack,
+.avalaunch-scroll-container:hover .avalaunch-stack-reverse {
+  animation-play-state: paused;
+}
+
+@keyframes avalaunchScrollLeft {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes avalaunchScrollRight {
+  0% { transform: translateX(-50%); }
+  100% { transform: translateX(0); }
+}
+
+.ux-logo-item {
+  width: 215px;
+  height: 96px;
+  padding: 14px 22px;
+  margin: 0 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffffff;
+  border: 1px solid #e5e9f2;
+  border-radius: 1rem;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease, transform 0.3s ease;
+}
+
+.ux-logo-item:hover {
+  border-color: #00a2df;
+  box-shadow: 0 12px 28px -8px rgba(18, 22, 42, 0.12);
+  transform: translateY(-3px);
+}
+
+.logo-grayscale {
+  filter: grayscale(100%) contrast(1.08);
+  opacity: 0.55;
+  transition: filter 0.35s ease, opacity 0.35s ease, transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.ux-logo-item:hover .logo-grayscale,
+.logo-grayscale:hover {
+  filter: grayscale(0%) contrast(1);
+  opacity: 1;
+  transform: scale(1.07);
+}
+
+/* ==========================================================================
+   5. Tarjetas de Servicios Destacados (Markene / Jupa-LA Style)
+   ========================================================================== */
+.service-card-modern {
+  background-color: #ffffff;
+  border: 1px solid #e4e8f2;
+  border-radius: 1.375rem; /* 22px como markene.online */
+  overflow: hidden;
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.32s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.32s ease;
+}
+
+.service-card-modern:hover {
+  transform: translateY(-6px);
+  border-color: #00a2df;
+  box-shadow: 0 22px 50px -14px rgba(18, 22, 42, 0.13);
+}
+
+.service-card-media {
+  position: relative;
+  height: 235px;
+  background: radial-gradient(circle at 80% 20%, rgba(0, 162, 223, 0.11), transparent 55%), #f0f0f0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  border-bottom: 1px solid #e4e8f2;
+  overflow: hidden;
+}
+
+.service-card-media img {
+  max-height: 100%;
+  width: auto;
+  object-fit: contain;
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.service-card-modern:hover .service-card-media img {
+  transform: scale(1.06);
+}
+
+/* ==========================================================================
+   6. Cajas Destacadas del Blog: Animación Hover "Zoom Out" con Sombra Suave
+   ========================================================================== */
+.blog-card-featured {
+  background-color: #ffffff;
+  border: 1px solid #e4e8f2;
+  border-radius: 1.375rem;
+  overflow: hidden;
+  box-shadow: 0 4px 18px -4px rgba(18, 22, 42, 0.08);
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.35s ease;
+  will-change: transform, box-shadow;
+}
+
+.blog-card-featured:hover {
+  transform: scale(0.975) translateY(-2px) !important; /* Animación Zoom Out suave */
+  border-color: #00a2df !important;
+  box-shadow: 0 20px 45px -12px rgba(18, 22, 42, 0.22),
+              0 6px 22px -4px rgba(0, 162, 223, 0.16) !important; /* Sombra suave y difusa */
+}
+
+.blog-card-featured .blog-card-media {
+  overflow: hidden;
+  position: relative;
+}
+
+.blog-card-featured .blog-card-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.06);
+  transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.blog-card-featured:hover .blog-card-media img {
+  transform: scale(1.0) !important; /* Zoom out suave de la foto al hacer hover */
+}
+
+.blog-card-featured h3 {
+  transition: color 0.28s ease;
+}
+
+.blog-card-featured:hover h3 {
+  color: #00a2df;
+}
+
+/* ==========================================================================
+   6. Formulario Interactivo Estilo Crafted NY (https://www.craftedny.com/contact/)
+   ========================================================================== */
+.crafted-service-box {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.85rem 1rem;
+  background-color: #f0f0f0;
+  color: #12162a;
+  border: 1.5px solid #e0e4ee;
+  border-radius: 0.75rem; /* Rectangular con bordes redondeados */
+  font-family: 'Manrope', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  cursor: pointer;
+  user-select: none;
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.crafted-service-box:hover {
+  background-color: #ff4200;
+  color: #ffffff;
+  border-color: #ff4200;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px -6px rgba(255, 66, 0, 0.35);
+}
+
+.crafted-service-box:hover .crafted-check-indicator {
+  border-color: #ffffff;
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+.crafted-service-box.active {
+  background-color: #12162a;
+  color: #ffffff;
+  border-color: #12162a;
+  box-shadow: 0 10px 24px -6px rgba(18, 22, 42, 0.3);
+}
+
+.crafted-check-indicator {
+  width: 18px;
+  height: 18px;
+  border-radius: 0.375rem;
+  border: 1.5px solid #94a3b8;
+  background-color: #ffffff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+
+.crafted-service-box.active .crafted-check-indicator {
+  background-color: #ff4200;
+  border-color: #ff4200;
+}
+
+.crafted-input {
+  width: 100%;
+  padding: 0.95rem 1.1rem;
+  background-color: #f0f0f0;
+  border: 1.5px solid #e2e6f0;
+  border-radius: 0.75rem;
+  color: #12162a;
+  font-size: 0.92rem;
+  transition: all 0.2s ease;
+}
+
+.crafted-input:focus {
+  background-color: #ffffff;
+  border-color: #00a2df;
+  outline: none;
+  box-shadow: 0 0 0 4px rgba(0, 162, 223, 0.12);
+}
+
+.crafted-dropzone {
+  border: 2px dashed #b8c2d8;
+  background-color: #f0f0f0;
+  border-radius: 0.875rem;
+  padding: 1.75rem 1.25rem;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+
+.crafted-dropzone:hover,
+.crafted-dropzone.drag-over {
+  border-color: #ff4200;
+  background-color: #fff6f2;
+}
+
+/* ==========================================================================
+   7. Animación de Aparición al Hacer Scroll & Botón Flotante WhatsApp
+   ========================================================================== */
+.reveal-block {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+              transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.reveal-block.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.whatsapp-float-btn {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 1.5rem;
+  z-index: 45;
+  background-color: #25D366;
+  color: #ffffff;
+  border-radius: 0.875rem;
+  box-shadow: 0 12px 28px -6px rgba(37, 211, 102, 0.45);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.whatsapp-float-btn:hover {
+  background-color: #ff4200;
+  transform: translateY(-3px) scale(1.03);
+  box-shadow: 0 14px 30px -6px rgba(255, 66, 0, 0.45);
+}
+
+/* ==========================================================================
+   8. Banner de Consentimiento de Cookies (GDPR / CCPA / Ley 8968 CR)
+      Diseño editorial discreto y FONDO 100% SÓLIDO OPACO (Nunca transparente)
+   ========================================================================== */
+#cookie-banner {
+  background-color: #ffffff !important;
+  color: #12162a !important;
+  opacity: 1 !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+  border: 2px solid #12162a;
+  box-shadow: 0 24px 60px -12px rgba(18, 22, 42, 0.32);
+}
+
+#cookie-reopen-pill {
+  background-color: #ffffff !important;
+  color: #12162a !important;
+  opacity: 1 !important;
+  border: 1.5px solid #e2e6f0;
+  box-shadow: 0 10px 24px -6px rgba(18, 22, 42, 0.18);
+  transition: all 0.22s ease;
+}
+
+#cookie-reopen-pill:hover {
+  background-color: #ff4200 !important;
+  color: #ffffff !important;
+  border-color: #ff4200 !important;
+}
+
