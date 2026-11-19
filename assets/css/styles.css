@@ -1283,6 +1283,12 @@ body.curtain-active .navbar-reveal {
   color: #ffffff;
 }
 
+.nosotros-badge.is-light {
+  background: rgba(0, 162, 223, 0.08);
+  border-color: rgba(0, 162, 223, 0.28);
+  color: #00a2df;
+}
+
 .nosotros-icon-box {
   width: 3.5rem;
   height: 3.5rem;
