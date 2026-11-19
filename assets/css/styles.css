@@ -157,16 +157,25 @@ body.curtain-active .navbar-reveal {
   gap: 0.35rem;
   padding: 1.25rem 0;
   cursor: pointer;
+  transition: color 0.25s ease;
 }
 
 .mega-menu-chevron {
-  transition: transform 0.25s ease;
+  display: inline-block;
+  transition: transform 0.28s cubic-bezier(0.16, 1, 0.3, 1), color 0.25s ease;
+  transform-origin: center center;
+}
+
+.mega-menu-wrapper:hover .mega-menu-trigger,
+.mega-menu-wrapper:focus-within .mega-menu-trigger {
+  color: #ff4200 !important;
 }
 
 .mega-menu-wrapper:hover .mega-menu-chevron,
 .mega-menu-wrapper:focus-within .mega-menu-chevron {
   transform: rotate(180deg);
-  color: #ff4200;
+  color: #ff4200 !important;
+  opacity: 1 !important;
 }
 
 .mega-menu-dropdown {

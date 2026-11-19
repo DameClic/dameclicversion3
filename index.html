@@ -130,19 +130,18 @@
 
       <!-- Enlaces del Menú Principal -->
       <nav class="hidden lg:flex items-center gap-7 text-sm font-bold text-white/90 font-heading" aria-label="Menú principal">
-        <a href="#inicio" data-i18n="nav_home" class="hover:text-[#ff4200] transition-colors py-1">Inicio</a>
+        <a href="index.html" data-i18n="nav_home" class="text-[#ff4200] font-extrabold transition-colors py-1 border-b-2 border-[#ff4200]">Inicio</a>
         <a href="nosotros.html" data-i18n="nav_about" class="hover:text-[#ff4200] transition-colors py-1">Nosotros</a>
 
         <!-- Botón de Servicios con Mega Menú Vistoso (6 Servicios con Mockups/Fotos) -->
         <div class="mega-menu-wrapper">
           <a href="#servicios"
-             data-i18n="nav_services"
              id="mega-menu-btn"
              aria-expanded="false"
              aria-haspopup="true"
              class="mega-menu-trigger hover:text-[#ff4200] transition-colors py-7 inline-flex items-center gap-1.5 focus:outline-none">
-            <span>Servicios</span>
-            <svg class="mega-menu-chevron w-3.5 h-3.5 text-white/70" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
+            <span data-i18n="nav_services">Servicios</span>
+            <svg class="mega-menu-chevron w-3.5 h-3.5 text-current opacity-80" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" d="m19.5 8.25-7.5 7.5-7.5-7.5" />
             </svg>
           </a>
