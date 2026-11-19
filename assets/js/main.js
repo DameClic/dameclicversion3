@@ -529,20 +529,21 @@ function initSearchDrawer() {
   if (!drawer) return;
 
   const catalog = [
-    { title: 'Marketing Digital — Estrategia 360°', tag: 'Servicio', href: '#servicio-marketing-digital' },
-    { title: 'Tienda en Línea — E-Commerce y Pasarelas', tag: 'Servicio', href: '#servicio-tienda-en-linea' },
-    { title: 'Páginas Web — Arquitectura de Conversión', tag: 'Servicio', href: '#servicio-paginas-web' },
-    { title: 'Google Ads — Primera página de Google (PPC)', tag: 'Servicio', href: '#servicio-google-ads' },
-    { title: 'SEO y GEO — Posicionamiento en Google e IA', tag: 'Servicio', href: '#servicio-seo-geo' },
-    { title: 'Redes Sociales — Diseño y Gestión de Contenido', tag: 'Servicio', href: '#servicio-redes-sociales' },
-    { title: 'Analítica Web — Medición de Ventas y ROI', tag: 'Servicio', href: '#servicio-analitica' },
-    { title: 'Diseño Gráfico — Branding e Imagen Corporativa', tag: 'Servicio', href: '#servicio-diseno-grafico' },
-    { title: 'Hospedaje Web — Dominio, Hosting y SSL', tag: 'Servicio', href: '#servicio-hospedaje-web' },
-    { title: '¿Cansado de los “Me gusta” que no venden?', tag: 'Blog', href: '#blog' },
-    { title: 'Deja de perder clientes por un sitio web obsoleto', tag: 'Blog', href: '#blog' },
-    { title: 'Más allá de la IA: Power Pack en Google Ads', tag: 'Blog', href: '#blog' },
-    { title: 'AEO, GEO y VSO: El siguiente paso más allá del SEO', tag: 'Blog', href: '#blog' },
-    { title: 'Formulario de Cotización y Contacto', tag: 'Contacto', href: '#contacto' },
+    { title: 'Quiénes Somos — Trayectoria, Misión y Valores de Dame Clic', tag: 'Nosotros', href: 'nosotros.html' },
+    { title: 'Marketing Digital — Estrategia 360°', tag: 'Servicio', href: 'index.html#servicio-marketing-digital' },
+    { title: 'Tienda en Línea — E-Commerce y Pasarelas', tag: 'Servicio', href: 'index.html#servicio-tienda-en-linea' },
+    { title: 'Páginas Web — Arquitectura de Conversión', tag: 'Servicio', href: 'index.html#servicio-paginas-web' },
+    { title: 'Google Ads — Primera página de Google (PPC)', tag: 'Servicio', href: 'index.html#servicio-google-ads' },
+    { title: 'SEO y GEO — Posicionamiento en Google e IA', tag: 'Servicio', href: 'index.html#servicio-seo-geo' },
+    { title: 'Redes Sociales — Diseño y Gestión de Contenido', tag: 'Servicio', href: 'index.html#servicio-redes-sociales' },
+    { title: 'Analítica Web — Medición de Ventas y ROI', tag: 'Servicio', href: 'index.html#servicio-analitica' },
+    { title: 'Diseño Gráfico — Branding e Imagen Corporativa', tag: 'Servicio', href: 'index.html#servicio-diseno-grafico' },
+    { title: 'Hospedaje Web — Dominio, Hosting y SSL', tag: 'Servicio', href: 'index.html#servicio-hospedaje-web' },
+    { title: '¿Cansado de los “Me gusta” que no venden?', tag: 'Blog', href: 'index.html#blog' },
+    { title: 'Deja de perder clientes por un sitio web obsoleto', tag: 'Blog', href: 'index.html#blog' },
+    { title: 'Más allá de la IA: Power Pack en Google Ads', tag: 'Blog', href: 'index.html#blog' },
+    { title: 'AEO, GEO y VSO: El siguiente paso más allá del SEO', tag: 'Blog', href: 'index.html#blog' },
+    { title: 'Formulario de Cotización y Contacto', tag: 'Contacto', href: 'index.html#contacto' },
     { title: 'Políticas de Privacidad', tag: 'Legal', href: './privacidad.html' }
   ];
 
@@ -628,7 +629,18 @@ function initLanguageSwitcher() {
 
   document.querySelectorAll('[data-lang-btn]').forEach(btn => {
     btn.addEventListener('click', () => {
-      window.setLanguage(btn.getAttribute('data-lang-btn'));
+      const targetLang = btn.getAttribute('data-lang-btn');
+      window.setLanguage(targetLang);
+      const currentPath = window.location.pathname;
+      if (currentPath.endsWith('nosotros.html') && targetLang === 'en') {
+        window.location.href = 'about.html';
+      } else if (currentPath.endsWith('about.html') && targetLang === 'es') {
+        window.location.href = 'nosotros.html';
+      } else if (currentPath.endsWith('en.html') && targetLang === 'es') {
+        window.location.href = 'index.html';
+      } else if (currentPath.endsWith('index.html') && targetLang === 'en') {
+        window.location.href = 'en.html';
+      }
     });
   });
 }

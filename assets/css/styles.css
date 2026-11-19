@@ -1178,3 +1178,128 @@ body.curtain-active .navbar-reveal {
   border-color: #ff4200 !important;
 }
 
+/* ==========================================================================
+   9. PÁGINA "NOSOTROS" — TARJETAS CON GRADIENTE ANIMADO (#010525 -> #081367 a #081465 -> #bf00d1)
+      Inspirado en el bloque moderno de Digital Silk (RE/MAX Case Study)
+   ========================================================================== */
+.nosotros-gradient-card {
+  position: relative;
+  border-radius: 1.5rem;
+  background: linear-gradient(145deg, #010525 0%, #081367 100%);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  box-shadow: 0 16px 36px -12px rgba(1, 5, 37, 0.7);
+  overflow: hidden;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1),
+              border-color 0.4s ease,
+              box-shadow 0.45s ease;
+  z-index: 1;
+}
+
+/* Capa de gradiente activo en dos tonos: #081465 y #bf00d1 */
+.nosotros-gradient-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(135deg, #081465 0%, #bf00d1 100%);
+  background-size: 220% 220%;
+  opacity: 0;
+  transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: -1;
+}
+
+/* Efecto de resplandor periférico sutil al hacer hover */
+.nosotros-gradient-card::after {
+  content: '';
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  background: linear-gradient(135deg, rgba(8, 20, 101, 0.8), rgba(191, 0, 209, 0.8));
+  opacity: 0;
+  z-index: -2;
+  transition: opacity 0.4s ease;
+}
+
+.nosotros-gradient-card:hover {
+  transform: translateY(-6px);
+  border-color: rgba(191, 0, 209, 0.65);
+  box-shadow: 0 24px 50px -12px rgba(191, 0, 209, 0.32),
+              0 10px 25px -8px rgba(8, 20, 101, 0.5);
+}
+
+.nosotros-gradient-card:hover::before {
+  opacity: 1;
+  animation: dsGradientShift 5s ease infinite alternate;
+}
+
+.nosotros-gradient-card:hover::after {
+  opacity: 0.6;
+}
+
+@keyframes dsGradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.nosotros-hero-number {
+  font-family: 'Manrope', sans-serif;
+  font-weight: 900;
+  font-size: clamp(2.5rem, 4.5vw, 4rem);
+  line-height: 1;
+  background: linear-gradient(135deg, #ffffff 40%, #00a2df 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+  letter-spacing: -0.03em;
+  transition: all 0.35s ease;
+}
+
+.nosotros-gradient-card:hover .nosotros-hero-number {
+  background: linear-gradient(135deg, #ffffff 20%, #ffc0fb 70%, #ffffff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nosotros-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.35rem 0.85rem;
+  border-radius: 9999px;
+  font-size: 0.6875rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-family: 'Manrope', sans-serif;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  color: #ffffff;
+}
+
+.nosotros-icon-box {
+  width: 3.5rem;
+  height: 3.5rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+  flex-shrink: 0;
+}
+
+.nosotros-gradient-card:hover .nosotros-icon-box {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: rgba(255, 255, 255, 0.35);
+  transform: scale(1.08) rotate(2deg);
+}
+
+
